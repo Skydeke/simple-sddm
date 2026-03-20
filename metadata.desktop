@@ -1,13 +1,13 @@
 [SddmGreeterTheme]
-Name=Tokyo Night SDDM
-Description=A Tokyo Night Theme for SDDM
-Author=rototrash
+Name=Simple SDDM Qt6
+Description=Simple SDDM theme ported to Qt 6
+Author=Skydeke
 License=GPL-3.0-or-later
 Type=sddm-theme
 Version=1.0
-Website=https://github.com/tokyo-night-sddm/
+Website=https://github.com/Skydeke/simple-sddm
 Screenshot=preview.png
 MainScript=Main.qml
 ConfigFile=theme.conf
-Theme-Id=tokyo-night-sddm
-
+Theme-Id=simple-sddm-qt6
+QtVersion=6
