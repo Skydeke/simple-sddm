@@ -22,8 +22,8 @@
 // along with SDDM Sugar Candy. If not, see <https://www.gnu.org/licenses/>
 //
 
-import QtQuick 6
-import QtQuick.Layouts 6
+import QtQuick 6.0
+import QtQuick.Layouts 6.0
 import SddmComponents 2.0 as SDDM
 
 ColumnLayout {
