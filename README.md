@@ -1,70 +1,87 @@
-<h2 align="center">🗼 Simple SDDM Theme - QT5 🗼</h2>
+<h2 align="center">🗼 Simple SDDM Theme — Qt 6 Fork 🗼</h2>
 
-<h1 align="center"> This will be the SDDM theme to be installed on some of my Hyprland Distro Install Scripts</h1>
-
-for a QT6, please see [`HERE](https://github.com/JaKooLit/simple-sddm-2)
-
-<p align=center>
-A Simple theme variant for the <a href="https://github.com/sddm/sddm">SDDM Login Manager</a>
+<p align="center">
+  This is a fork of <a href="https://github.com/JaKooLit/simple-sddm">JaKooLit/simple-sddm</a> (originally based on <a href="https://github.com/rototrash/tokyo-night-sddm">rototrash/tokyo-night-sddm</a>).<br>
+  The original theme targets Qt 5. I forked it because I needed a Qt 6 compatible version for my setup.<br>
+  All Qt 5 imports have been ported to Qt 6, and the login form is positioned on the right side of the screen.
 </p>
 
-<h2 align=center>Preview</h2>
-<center>
+<p align="center">
+  Fork maintained at: <a href="https://github.com/Skydeke/simple-sddm">https://github.com/Skydeke/simple-sddm</a>
+</p>
+
+<h2 align="center">Preview</h2>
+<p align="center">
 <img src="./Previews/1.png" alt="preview-1">
-<details>
-<summary align=center>More Previews</summary>
-<img src="./Previews/2.png" alt="preview-2">
-<img src="./Previews/3.png" alt="preview-4">
-<img src="./Previews/4.png" alt="preview-3">
-<img src="./Previews/5.png" alt="preview-5">
-</details>
-</center>
+</p>
 
-## Install
-### From sources
-> _Assumes that you've installed and configured SDDM correctly_ (if not [read more](https://wiki.archlinux.org/title/SDDM))
-
->  Please make sure you have the following dependencies installed:
->  `qt5-quickcontrols2`, `qt5-graphicaleffects`, `qt5-svg` 
-
-1. Open terminal, and clone the repository with:
-
-   ```bash
-   git clone https://github.com/JaKooLit/simple-sddm.git ~/simple-sddm
-   ```
-
-2. Then move it as follows:
-
-   ```bash
-   sudo mv ~/simple-sddm /usr/share/sddm/themes/
-   ```
-
-## Configure
-
-Edit the '/etc/sddm.conf.d/theme.conf.user' (with any text editor with **raised** privileges), so that it looks like this:
-
-```bash
-sudo nano /etc/sddm.conf.d/theme.conf.user # use any text editor with raised privileges
 ---
 
-[Theme]
-Current=simple-sddm
-   ```
+## Dependencies
 
-### Language and time format
-- By default, it is configured with 24H format. You can change to AM/PM variant by editing the theme.conf
+- `sddm`
+- `qt6-declarative`
+- `qt6-5compat` — required for blur, drop shadow, and colour overlay effects
+
+Optional:
+- `qt6-virtualkeyboard` — on-screen keyboard button
+
+---
+
+## Install
+
+### Option 1 — PKGBUILD (Arch Linux)
+
+A `PKGBUILD` is included in this repo. It pulls directly from the git repo.
+
 ```bash
-sudo nano /usr/share/sddm/themes/simple-sddm/theme.conf  # use any text editor with raised privileges
+git clone https://github.com/Skydeke/simple-sddm.git
+cd simple-sddm
+makepkg -si
 ```
-- `HourFormat="hh:mm AP` . Make sure to disable the above of this part
 
-### 🖼️ Default SDDM background
-- To change the default background, put desired image in the `/usr/share/sddm/themes/simple-sddm/Backgrounds/` folder and add the name of the image followed by its extension (`.jpg` or `.png`) in `theme.conf` file.
+### Option 2 — Manual
 
-- You can also customize it further if you wish in the `/usr/share/sddm/themes/simple-sddm/theme.conf`
-(blur, form position, etc)
+> Assumes SDDM is installed and configured. If not, see the [Arch Wiki](https://wiki.archlinux.org/title/SDDM).
+
+```bash
+git clone https://github.com/Skydeke/simple-sddm.git
+sudo cp -r simple-sddm /usr/share/sddm/themes/simple-sddm-qt6
+```
+
+---
+
+## Activate
+
+Edit `/etc/sddm.conf.d/theme.conf` (create it if it doesn't exist):
+
+```ini
+[Theme]
+Current=simple-sddm-qt6
+```
+
+---
+
+## Testing without logging out
+
+```bash
+sddm-greeter-qt6 --test-mode --theme /usr/share/sddm/themes/simple-sddm-qt6
+```
+
+---
+
+## Customisation
+
+Edit `/usr/share/sddm/themes/simple-sddm-qt6/theme.conf` to change:
+
+- `Background` — path to a background image inside `Backgrounds/`
+- `FormPosition` — `left`, `center`, or `right`
+- `HourFormat` — `HH:mm` for 24h, `hh:mm AP` for AM/PM
+- `AccentColor` / `MainColor` — theme colours
+
+---
 
 ## Credits
-- Modified Theme which is based to this [`LINK`](https://github.com/rototrash/tokyo-night-sddm) by [**rototrash**](https://github.com/rototrash)
 
-
+- Original Qt 5 theme by [JaKooLit](https://github.com/JaKooLit/simple-sddm)
+- Based on [tokyo-night-sddm](https://github.com/rototrash/tokyo-night-sddm) by [rototrash](https://github.com/rototrash)
