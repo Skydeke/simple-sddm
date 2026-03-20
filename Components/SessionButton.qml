@@ -22,9 +22,9 @@
 // along with SDDM Sugar Candy. If not, see <https://www.gnu.org/licenses/>
 //
 
-import QtQuick 2.11
-import QtQuick.Controls 2.4
-import QtGraphicalEffects 1.0
+import QtQuick 6
+import QtQuick.Controls 6
+import Qt5Compat.GraphicalEffects
 
 Item {
     id: sessionButton
@@ -35,7 +35,7 @@ Item {
     property var selectedSession: selectSession.currentIndex
     property string textConstantSession
     property int loginButtonWidth
-    property Control exposeSession: selectSession
+    property Item exposeSession: selectSession
 
     ComboBox {
         id: selectSession

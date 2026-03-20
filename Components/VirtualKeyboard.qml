@@ -22,7 +22,7 @@
 // along with SDDM Sugar Candy. If not, see <https://www.gnu.org/licenses/>
 //
 
-import QtQuick 2.11
+import QtQuick 6
 import QtQuick.VirtualKeyboard 2.3
 
 InputPanel {

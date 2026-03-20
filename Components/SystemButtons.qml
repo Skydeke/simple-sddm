@@ -22,20 +22,23 @@
 // along with SDDM Sugar Candy. If not, see <https://www.gnu.org/licenses/>
 //
 
-import QtQuick 2.11
-import QtQuick.Layouts 1.11
-import QtQuick.Controls 2.4
+import QtQuick 6
+import QtQuick.Layouts 6
+import QtQuick.Controls 6
+import SddmComponents 2.0 as SDDM
 
 RowLayout {
 
     spacing: root.font.pointSize
+
+    SDDM.TextConstants { id: textConstants }
 
     property var suspend: ["Suspend", config.TranslateSuspend || textConstants.suspend, sddm.canSuspend]
     property var hibernate: ["Hibernate", config.TranslateHibernate || textConstants.hibernate, sddm.canHibernate]
     property var reboot: ["Reboot", config.TranslateReboot || textConstants.reboot, sddm.canReboot]
     property var shutdown: ["Shutdown", config.TranslateShutdown || textConstants.shutdown, sddm.canPowerOff]
 
-    property Control exposedSession
+    property Item exposedSession
 
     Repeater {
 
@@ -50,7 +53,7 @@ RowLayout {
             icon.height: 2 * Math.round((root.font.pointSize * 3) / 2)
             icon.width: 2 * Math.round((root.font.pointSize * 3) / 2)
             display: AbstractButton.TextUnderIcon
-            visible: config.ForceHideSystemButtons != "true" && modelData[2]
+            visible: config.ForceHideSystemButtons != "true"
             hoverEnabled: true
             palette.buttonText: root.palette.text
             background: Rectangle {

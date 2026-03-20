@@ -22,16 +22,19 @@
 // along with SDDM Sugar Candy. If not, see <https://www.gnu.org/licenses/>
 //
 
-import QtQuick 2.11
-import QtQuick.Layouts 1.11
-import QtQuick.Controls 2.4
-import QtGraphicalEffects 1.0
+import QtQuick 6
+import QtQuick.Layouts 6
+import QtQuick.Controls 6
+import Qt5Compat.GraphicalEffects
+import SddmComponents 2.0 as SDDM
 
 Column {
     id: inputContainer
+
+    SDDM.TextConstants { id: textConstants }
     Layout.fillWidth: true
 
-    property Control exposeSession: sessionSelect.exposeSession
+    property Item exposeSession: sessionSelect.exposeSession
     property bool failed
 
     Item {
@@ -45,9 +48,10 @@ Column {
 
             id: selectUser
 
-            width: parent.height
-            height: parent.height
+            width: root.font.pointSize * 3
+            height: root.font.pointSize * 3
             anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
 
             property var popkey: config.ForceRightToLeft == "true" ? Qt.Key_Right : Qt.Key_Left
             Keys.onPressed: {
@@ -85,24 +89,35 @@ Column {
                 }
             }
 
-            indicator: Button {
+            indicator: Item {
                     id: usernameIcon
-                    width: selectUser.height * 0.8
-                    height: parent.height
-                    anchors.left: parent.left
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.leftMargin: selectUser.height * 0.125
-                    icon.height: parent.height * 0.25
-                    icon.width: parent.height * 0.25
-                    enabled: false
-                    icon.color: root.palette.text
-                    icon.source: Qt.resolvedUrl("../Assets/User.svgz")
+                    width: selectUser.width
+                    height: selectUser.height
+                    anchors.centerIn: parent
+
+                    property color iconColor: root.palette.text
+
+                    Image {
+                        width: selectUser.width * 0.6
+                        height: selectUser.height * 0.6
+                        anchors.centerIn: parent
+                        source: Qt.resolvedUrl("../Assets/User.svgz")
+                        sourceSize.width: width
+                        sourceSize.height: height
+                        smooth: true
+                        layer.enabled: true
+                        layer.effect: ColorOverlay {
+                            color: usernameIcon.iconColor
+                        }
+                    }
             }
 
             background: Rectangle {
                 color: "transparent"
                 border.color: "transparent"
             }
+
+            contentItem: Item {}
 
             popup: Popup {
                 y: parent.height - username.height / 3
@@ -146,7 +161,7 @@ Column {
                     when: selectUser.down
                     PropertyChanges {
                         target: usernameIcon
-                        icon.color: Qt.lighter(root.palette.highlight, 1.1)
+                        iconColor: Qt.lighter(root.palette.highlight, 1.1)
                     }
                 },
                 State {
@@ -154,7 +169,7 @@ Column {
                     when: selectUser.hovered
                     PropertyChanges {
                         target: usernameIcon
-                        icon.color: Qt.lighter(root.palette.highlight, 1.2)
+                        iconColor: Qt.lighter(root.palette.highlight, 1.2)
                     }
                 },
                 State {
@@ -162,7 +177,7 @@ Column {
                     when: selectUser.activeFocus
                     PropertyChanges {
                         target: usernameIcon
-                        icon.color: root.palette.highlight
+                        iconColor: root.palette.highlight
                     }
                 }
             ]
@@ -170,7 +185,7 @@ Column {
             transitions: [
                 Transition {
                     PropertyAnimation {
-                        properties: "color, border.color, icon.color"
+                        properties: "color, border.color, iconColor"
                         duration: 150
                     }
                 }
@@ -185,6 +200,7 @@ Column {
             anchors.centerIn: parent
             height: root.font.pointSize * 3
             width: parent.width
+            leftPadding: selectUser.width + root.font.pointSize * 0.5
             placeholderText: config.TranslatePlaceholderUsername || textConstants.userName
             selectByMouse: true
             horizontalAlignment: TextInput.AlignHCenter
@@ -560,8 +576,8 @@ Column {
 
     Connections {
         target: sddm
-        onLoginSucceeded: {}
-        onLoginFailed: {
+        function onLoginSucceeded() {}
+        function onLoginFailed() {
             failed = true
             resetError.running ? resetError.stop() && resetError.start() : resetError.start()
         }
